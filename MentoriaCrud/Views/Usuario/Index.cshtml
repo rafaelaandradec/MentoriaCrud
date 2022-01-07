@@ -1,0 +1,69 @@
+﻿@model List<UsuarioModel>
+@{
+    ViewData["Title"] = "Lista de Usuários";
+}
+
+<div class="text-center">
+
+    <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+        <a class="btn btn-warning" role="button" asp-controller="Usuario" asp-action="Criar">Adicionar novo usuário</a>
+    </div>
+
+    @if (TempData["MensagemSucesso"] != null)
+    {
+        <div class="alert alert-sucess" role="alert">
+            <button type="button" class="btn btn-danger btn-sm close-alert" data-bs-dismiss="alert" aria-label="Close">X</button>
+            @TempData["MensagemSucesso"]
+        </div>
+    }
+
+    @if (TempData["MensagemErro"] != null)
+    {
+        <div class="alert alert-danger" role="alert">
+            <button type="button" class="btn btn-danger btn-sm close-alert" data-bs-dismiss="alert" aria-label="Close">X</button> 
+            @TempData["MensagemErro"]
+        </div>      
+    }
+
+    <h1 class="display-4">UControl</h1>
+    <h5>Lista de usuários</h5>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Código</th>
+                <th scope="col">Nome completo</th>
+                <th scope="col">Email</th>
+                <th scope="col">Telefone</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                foreach (UsuarioModel usuario in Model)
+                {
+                    <tr>
+                        <th scope="row">@usuario.Id</th>
+                        <td>@usuario.Nome</td>
+                        <td>@usuario.Email</td>
+                        <td>@usuario.Telefone</td>
+                        <td>
+                            <div class="btn-group" role="group">
+                                <a role="button" class="btn btn-secondary" asp-route-id="@usuario.Id" asp-controller="Usuario" asp-action="Editar">Editar</a>
+                                <a role="button" class="btn btn-warning" asp-route-id="@usuario.Id" asp-controller="Usuario" asp-action="ExcluirConfirma">Excluir</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr class="odd">
+                    <td valign="top" colspan="5">Usuário não encontrado</td>
+                </tr>
+            }
+            </tbody>
+    </table>
+</div>
+
